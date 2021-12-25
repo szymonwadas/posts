@@ -7,7 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpsertPostRequest;
 use Illuminate\Support\Facades\Auth;
-use App\Services\Posts;
+use App\Services\PostRedis;
 
 class PostController extends Controller
 {
@@ -119,7 +119,7 @@ class PostController extends Controller
 
     public function getPosts($category = null)
     {
-        $cachedPosts = new Posts();
+        $cachedPosts = new PostRedis();
         return $cachedPosts->getCachedPosts($category);
     }
 
@@ -130,7 +130,7 @@ class PostController extends Controller
 
     public function cachePosts()
     {
-        $cachePosts = new Posts();
+        $cachePosts = new PostRedis();
         $cachePosts->setPosts(Post::all());
         $cachePosts->cachePosts();
     }
